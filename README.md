@@ -14,7 +14,7 @@ Cleared data passed to “calculate function of Analyzer. This function is manag
 The project is written according to Object oriented programming (OOP) concept. Structure of the code is as; Class for main window, two classes for frames embedded inside the window and there is Analyser class. During execution of the analyser, new thread is created to prevent the UI from freezing and lost its capability. Progress bar is added and updated from Analyser executing on another thread.
 
 
-
+![alt text](https://github.com/AhmetNSHN/sentitou/blob/master/UI.jpeg)
 
 
 
