@@ -29,7 +29,18 @@ The project is written according to Object oriented programming (OOP) concept. S
 ![alt text](https://github.com/AhmetNSHN/sentitou/blob/master/flowchart%20Training.jpeg) ![alt text](https://github.com/AhmetNSHN/sentitou/blob/master/flowchart%20analysing.jpeg)
 
 
+
+
+
 Used bot to collect data: https://github.com/AhmetNSHN/Selenium-TripAdvisorReviewScraper
+
+
+
+
+
+
+
+
 
 
 
