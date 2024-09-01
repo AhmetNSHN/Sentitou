@@ -74,7 +74,7 @@ The following flowcharts outline the training and analysis processes:
 
 ## Data Collection
 
-Training data was crawled from TripAdvisor using a custom bot:
+A custom bot was developed to crawl data for training our model. The source code can be found below, but please note that TripAdvisor updates platform frequently, which will affect the bot's functionality.
 - **Selenium-TripAdvisorReviewScraper**: [GitHub Repository](https://github.com/AhmetNSHN/Selenium-TripAdvisorReviewScraper)
 
 ## Conclusion
