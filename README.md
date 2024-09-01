@@ -1,67 +1,82 @@
-# Sentitou: Hotel Review Analysis using Naive Bayes Classifier
+# Sentitou: Hotel Review Sentiment Analysis
 
-Sentitou is a machine learning project that analyzes hotel reviews using a Multinomial Naive Bayes classifier. The project is designed to classify reviews as either positive or negative, and also to perform aspect-based sentiment analysis across different categories such as Food, Staff, Price, Pool/Sea, and Room.
+Sentitou is a machine learning project designed to analyze hotel reviews. The project utilizes the Multinomial Naive Bayes classifier, a probabilistic model, to classify reviews as positive or negative and to perform aspect-based sentiment analysis across several categories.
 
-## Overview
+## Classifier Details
 
-### Naive Bayes Classifier
-
-The core of this project is the **Multinomial Naive Bayes** classifier, a probabilistic model that estimates the likelihood of various outcomes based on observed data. This classifier is used to:
-- **Classify reviews** as positive or negative.
-- **Make aspect-based analysis** to categorize reviews into specific aspects (Food, Staff, Price, Pool/Sea, and Room).
+The **Multinomial Naive Bayes** classifier observes outcomes, selects the best estimation, and returns it based on the highest probability or likelihood. In this project, the classifier is used for:
+- **Positive/Negative classification**: Determines whether a review is overall positive or negative.
+- **Aspect-based classification**: Analyzes specific aspects such as Food, Staff, Price, Pool/Sea, and Room.
 
 ### Training Data
 
 - **Positive/Negative Classifier**: Trained on 10,000 hotel reviews.
-- **Aspect-Based Classifier**: Trained with 200 reviews for each five specific aspects total of 1000 reviews.
+- **Aspect-Based Classifier**: Trained on 200 hotel reviews categorized into five aspects:
+  - Food
+  - Staff
+  - Price
+  - Pool/Sea
+  - Room
 
 ### Data Preprocessing
 
-The training data undergoes a three-stage cleaning process:
-1. **Removal of non-ASCII characters**: Handled using regular expressions.
-2. **Conversion to lowercase**: All text is standardized to lowercase.
-3. **Stopword removal**: Commonly used words that don't contribute to sentiment analysis are removed.
+The training data undergoes the following preprocessing steps:
+1. **Remove non-ASCII characters**: Handled using regular expressions.
+2. **Convert to lowercase**: Standardizes all text to lowercase.
+3. **Remove stopwords**: Filters out common words that don't contribute to sentiment analysis.
 
 ### Training Process
 
-During the training phase:
-- Data is shuffled, with 75% used for training and 25% reserved for testing.
-- The model calculates prior probabilities \( p(c) \) for each class and the likelihood \( p(d|c) \) of observing a given feature set.
-- The processed data is stored in JSON files, including Vocabulary, Prior Likelihood, and Likelihood. These files are later utilized by the "Test_classifier" function and the "predict.py" class for analysis.
+The training process includes:
+- **Data Shuffling**: 75% of the data is used for training, while 25% is reserved for testing. This ratio applies to both the Positive/Negative and Aspect-Based classifiers.
+- **Model Training**: The model calculates \( p(c) \) (prior probability) and \( p(d|c) \) (likelihood given class \( c_i \)) for each class. It then forms a vocabulary list based on the training data.
+- **Output**: The training output is saved in three JSON files:
+  - Vocabulary
+  - Prior likelihood
+  - Likelihood
+
+These JSON files are used by the `Test_classifier` function and the `Predict` class to analyze new data.
 
 ### Performance
 
-The model was tested 10 times, yielding an average accuracy of:
-- **95%** for the Positive/Negative classifier.
-- **92%** for the Aspect-Based classifier.
+The model's accuracy was tested 10 times with resetting between tests:
+- **Positive/Negative Classifier**: Achieved an average accuracy of 95%.
+- **Aspect-Based Classifier**: Achieved an average accuracy of 92%.
 
 ## Analyzer Class
 
-The **Analyzer** class fetches review data from the database and processes it in the following steps:
-- **Data Extraction**: Program fetch data from given .xlsx and proccess it. Other extensions are prevented. Each line is a review.
-- **Sentence Splitting**: Reviews are divided into individual sentences for granular analysis.
-- **Data Cleaning**: Same cleaning steps used in the training process are applied.
-- **Sentiment and Aspect Classification**: The Naive Bayes algorithm first determines the sentiment, then categorizes the sentence into one of the five aspects based on the highest likelihood.
+The **Analyzer** class is responsible for:
+- **Data Extraction**: Fetches review data from the database. Only `.xlsx` files are processed.
+- **Sentence Splitting**: Divides reviews into sentences for detailed analysis.
+- **Data Cleaning**: Applies the same cleaning steps as during training.
+- **Sentiment and Aspect Classification**: Uses the Naive Bayes algorithm to determine the sentiment and categorize each sentence.
 
 ### Rating Calculation
 
-The Analyzer class dynamically determines the rating based on the frequency and sentiment of aspects mentioned within a review. If an aspect is mentioned multiple times with conflicting sentiments, they neutralize each other.
+Ratings are dynamically calculated based on the frequency and sentiment of aspects mentioned in a review:
+- **Multiple Mentions**: If the same aspect is mentioned multiple times, it has a stronger influence on the rating.
+- **Conflicting Sentiments**: If an aspect is mentioned with both positive and negative sentiments, they neutralize each other.
+
+The Analyzer generates data for:
+- Word clouds
+- Donut charts
+- The number of reviews mentioning each aspect
 
 ## Project Structure
 
-The project follows Object-Oriented Programming (OOP) principles and is structured into:
-- A **Main Window** class to manage user interface.
-- Two classes for managing frames embedded within the window.
-- The **Analyzer** class for processing and analyzing reviews.
+The project is developed using Object-Oriented Programming (OOP) principles. The main components include:
+- **Main Window**: The primary user interface.
+- **Frames**: Two classes for managing frames within the window.
+- **Analyzer**: The core class responsible for processing and analyzing the reviews.
 
 ## User Interface
 
 ![User Interface](https://github.com/AhmetNSHN/sentitou/blob/master/UI.jpeg)
 *Figure 1: User Interface*
 
-## Flowcharts
+## Process Flowcharts
 
-The following flowcharts outline the training and analysis processes:
+The following flowcharts illustrate the training and analysis processes:
 
 <p align="center">
   <img src="https://github.com/AhmetNSHN/sentitou/blob/master/flowchart%20Training.jpeg" alt="Training Flowchart" height="1000px">
@@ -71,13 +86,11 @@ The following flowcharts outline the training and analysis processes:
 <p align="center">Figure 2: Training Flowchart | Figure 3: Analyzing Flowchart</p>
 
 
-
 ## Data Collection
 
-A custom bot was developed to crawl data for training our model. The source code can be found below, but please note that TripAdvisor updates platform frequently, which will affect the bot's functionality.
+A custom bot was developed to crawl data for training our model. The source code can be found below, but please note that TripAdvisor updates platform frequently, which will affect the bot's functionality:
 - **Selenium-TripAdvisorReviewScraper**: [GitHub Repository](https://github.com/AhmetNSHN/Selenium-TripAdvisorReviewScraper)
 
 ## Conclusion
 
-Sentitou provides a robust framework for analyzing hotel reviews, offering insights into both general sentiment and specific aspects of the customer experience. The use of the Naive Bayes classifier ensures accurate and reliable predictions, making it a valuable tool for businesses in the hospitality industry.
-
+Sentitou offers a robust solution for analyzing hotel reviews, providing insights into both overall sentiment and specific aspects of the customer experience. The use of a Naive Bayes classifier ensures accurate predictions, making it a valuable tool for understanding guest feedback in the tourism industry.
