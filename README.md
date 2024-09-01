@@ -1,26 +1,83 @@
-# Sentitou
+# Sentitou: Hotel Review Analysis using Naive Bayes Classifier
 
-The training model used is the Multinomial Naive Bayes classifier. The Naive Bayes classifier is a probabilistic classifier that observes outcomes, selects the best estimation, and returns it. The outcome might be the highest probability, the highest likelihood, or one of them at the required level. This classifier is used for both classifying positive and negative classes and aspect-based classes in this project. The training data includes 10,000 comments for the positive and negative classifier and 200 reviews for the aspect-based classifier (Food, Staff, Price, Pool/Sea, and Room).
+Sentitou is a machine learning project that analyzes hotel reviews using a Multinomial Naive Bayes classifier. The project is designed to classify reviews as either positive or negative, and also to perform aspect-based sentiment analysis across different categories such as Food, Staff, Price, Pool/Sea, and Room.
 
-The algorithm starts by clearing the training data, which consists of three stages: removing non-ASCII characters, converting lowercase characters to uppercase characters, and removing stopwords. The algorithm uses regular expressions to clear non-ASCII characters.
+## Overview
 
-Training data includes 10,000 comments for the positive and negative classifier. There are five classes for the Aspect-based classifier: Food, Staff, Price, Pool/Sea, and Room. During the training phase, data is shuffled, and 75% of the training data is used to train our model, and the remaining is used to test our model. Ratios are the same for both models, the model that analyzes sentences as positive and negative, and the other model that makes aspect-based analysis. After clearing the data, the algorithm starts to train the model.
+### Naive Bayes Classifier
 
-The model calculates \( p(c) \) (prior probability), then counts the total number of words for each class. It then computes \( p(d|c) \) (the probability we return class \( c_i \) given that our observation is \( d \)) and forms a vocabulary list that consists of words our model will use during execution. The algorithm divides those classes into documents, counts the number of times Word "x" appears in class document, and then calculates the likelihood for each word. At the end, the training algorithm writes its output to JSON files. The output consists of three JSON files: Vocabulary, prior likelihood, and likelihood. JSON files are later used by the "Test_classifier" function to test the model and "Predict" class created to analyze given data by the user. The same process is applied to our model making aspect-based analysis.
+The core of this project is the **Multinomial Naive Bayes** classifier, a probabilistic model that estimates the likelihood of various outcomes based on observed data. This classifier is used to:
+- **Classify reviews** as positive or negative.
+- **Make aspect-based analysis** to categorize reviews into specific aspects (Food, Staff, Price, Pool/Sea, and Room).
 
-After training for both models, instead of using cross-validation, we tested the model 10 times by resetting it, and the averages were 95% for the positive-negative classifier and 92% for the aspect-based classifier.
+### Training Data
+
+- **Positive/Negative Classifier**: Trained on 10,000 hotel reviews.
+- **Aspect-Based Classifier**: Trained with 200 reviews for each five specific aspects total of 1000 reviews.
+
+### Data Preprocessing
+
+The training data undergoes a three-stage cleaning process:
+1. **Removal of non-ASCII characters**: Handled using regular expressions.
+2. **Conversion to lowercase**: All text is standardized to lowercase.
+3. **Stopword removal**: Commonly used words that don't contribute to sentiment analysis are removed.
+
+### Training Process
+
+During the training phase:
+- Data is shuffled, with 75% used for training and 25% reserved for testing.
+- The model calculates prior probabilities \( p(c) \) for each class and the likelihood \( p(d|c) \) of observing a given feature set.
+- The processed data is stored in JSON files, including Vocabulary, Prior Likelihood, and Likelihood. These files are later utilized by the "Test_classifier" function and the "predict.py" class for analysis.
+
+### Performance
+
+The model was tested 10 times, yielding an average accuracy of:
+- **95%** for the Positive/Negative classifier.
+- **92%** for the Aspect-Based classifier.
+
+## Analyzer Class
+
+The **Analyzer** class fetches review data from the database and processes it in the following steps:
+- **Data Extraction**: Program fetch data from given .xlsx and proccess it. Other extensions are prevented. Each line is a review.
+- **Sentence Splitting**: Reviews are divided into individual sentences for granular analysis.
+- **Data Cleaning**: Same cleaning steps used in the training process are applied.
+- **Sentiment and Aspect Classification**: The Naive Bayes algorithm first determines the sentiment, then categorizes the sentence into one of the five aspects based on the highest likelihood.
+
+### Rating Calculation
+
+The Analyzer class dynamically determines the rating based on the frequency and sentiment of aspects mentioned within a review. If an aspect is mentioned multiple times with conflicting sentiments, they neutralize each other.
+
+## Project Structure
+
+The project follows Object-Oriented Programming (OOP) principles and is structured into:
+- A **Main Window** class to manage user interface.
+- Two classes for managing frames embedded within the window.
+- The **Analyzer** class for processing and analyzing reviews.
+
+## User Interface
 
 ![User Interface](https://github.com/AhmetNSHN/sentitou/blob/master/UI.jpeg)
-Figure 1: User Interface
+*Figure 1: User Interface*
 
-Our Analyzer class starts with fetching data from the database for both classifiers. It extracts data from the location given by the user. The selection of documents with extensions other than .xlsx is prevented. Reviews are divided into sentences, and analysis is done sentence by sentence. The data clearing process is done by the analyzer too. The clearing data process is the same as the training phase and can be seen in figure 2. After the clearing process, the Analyzer keeps every word to form a word cloud.
+## Flowcharts
 
-The cleared data is then passed to the Analyzer. The Analyzer keeps some counters to calculate the number of reviews for each mentioned aspect and calculate rating. Dynamics to determine the rating is as follows: if the same aspect is mentioned in several sentences in the review, then it has more power to determine the rating than other reviews. If a review has two sentences about the same aspect but one of them is positive and the other is negative, they neutralize each other. The Analyzer returns data created to draw word clouds, stats to draw donut charts and write to the text box, and the number of reviews for each aspect mentioned. Analyzer Naive Bayes algorithm, first calculates the sentiment of the sentence, then the category of it by selecting the highest likelihood between classes, and then returns both sentiment and category.
+The following flowcharts outline the training and analysis processes:
 
-The project is written according to the Object-Oriented Programming (OOP) concept. The structure of the code is as follows: a class for the main window, two classes for frames embedded inside the window, and there is an Analyzer class.
+<p align="center">
+  <img src="https://github.com/AhmetNSHN/sentitou/blob/master/flowchart%20Training.jpeg" alt="Training Flowchart" height="1000px">
+  <img src="https://github.com/AhmetNSHN/sentitou/blob/master/flowchart%20analysing.jpeg" alt="Analyzing Flowchart" height="1000px">
+</p>
 
-![Training Flowchart](https://github.com/AhmetNSHN/sentitou/blob/master/flowchart%20Training.jpeg) ![Analyzing Flowchart](https://github.com/AhmetNSHN/sentitou/blob/master/flowchart%20analysing.jpeg)
+<p align="center">Figure 2: Training Flowchart | Figure 3: Analyzing Flowchart</p>
 
-Figure 2: Training Flowchart | Figure 3: Analyzing Flowchart
 
-Bot that used to crawl training data from TripAdvisor: [Selenium-TripAdvisorReviewScraper](https://github.com/AhmetNSHN/Selenium-TripAdvisorReviewScraper)
+
+## Data Collection
+
+Training data was crawled from TripAdvisor using a custom bot:
+- **Selenium-TripAdvisorReviewScraper**: [GitHub Repository](https://github.com/AhmetNSHN/Selenium-TripAdvisorReviewScraper)
+
+## Conclusion
+
+Sentitou provides a robust framework for analyzing hotel reviews, offering insights into both general sentiment and specific aspects of the customer experience. The use of the Naive Bayes classifier ensures accurate and reliable predictions, making it a valuable tool for businesses in the hospitality industry.
+
