@@ -1,5 +1,6 @@
 # Sentitou: Hotel Review Sentiment Analysis
 
+
 Sentitou is a machine learning project designed to analyze hotel reviews. The project utilizes the Multinomial Naive Bayes classifier, a probabilistic model, to classify reviews as positive or negative and to perform aspect-based sentiment analysis across several categories.
 
 ## Classifier Details
